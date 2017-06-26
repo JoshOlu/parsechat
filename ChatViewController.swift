@@ -15,6 +15,7 @@ class ChatViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var chatMessageField: UITextField!
     
+
     var chats: [PFObject] = []
     
     
@@ -40,6 +41,7 @@ class ChatViewController: UIViewController, UITableViewDataSource {
     @IBAction func sendButton(_ sender: Any) {
         let chatMessage = PFObject(className: "Message_fbu2017")
         chatMessage["text"] = chatMessageField.text ?? ""
+        chatMessage["user"] = PFUser.current()
         chatMessage.saveInBackground { (success, error) in
             if success {
                 print("The message was saved!")
@@ -62,6 +64,15 @@ class ChatViewController: UIViewController, UITableViewDataSource {
         let message = chats[indexPath.row]
         let chat = message["text"]
         
+        if let user = message["user"] as? PFUser {
+            // User found! update username label with username
+            cell.usernameLabel.text = user.username
+        } else {
+            // No user found, set default username
+            cell.usernameLabel.text = "🤖"
+        }
+
+        
         cell.messageLabel.text = chat as! String
         
         return cell
@@ -71,6 +82,7 @@ class ChatViewController: UIViewController, UITableViewDataSource {
     
     func onTimer() {
         var query = PFQuery(className: "Message_fbu2017")
+        query.includeKey("user")
         query.addDescendingOrder("createdAt")
         query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
         
