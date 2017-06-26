@@ -9,21 +9,30 @@
 import UIKit
 import Parse
 
-class ChatViewController: UIViewController {
+class ChatViewController: UIViewController, UITableViewDataSource {
 
+    @IBOutlet weak var chatTableView: UITableView!
+    
     @IBOutlet weak var chatMessageField: UITextField!
+    
+    var chats: [PFObject] = []
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        chatTableView.dataSource = self
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.onTimer), userInfo: nil, repeats: true)
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     @IBAction func sendButton(_ sender: Any) {
         let chatMessage = PFObject(className: "Message_fbuJuly2017")
         chatMessage["text"] = chatMessageField.text ?? ""
@@ -36,6 +45,50 @@ class ChatViewController: UIViewController {
             }
         }
     }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return chats.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell", for: indexPath) as! ChatCell
+        
+        let message = chats[indexPath.row]
+        let chat = message["text"]
+        
+        cell.messageLabel.text = chat as! String
+        
+        return cell
+        
+        
+    }
+    
+    func onTimer() {
+        var query = PFQuery(className: "Message_fbu2017")
+        query.addDescendingOrder("createdAt")
+        query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
+        
+            if error == nil{
+                self.chats = posts!
+                self.chatTableView.reloadData()
+            } else {
+                print(error)
+            }
+        }
+        
+        }
+                    // The getObjectInBackgroundWithId methods are asynchronous, so any code after this will run
+        // immediately.  Any code that depends on the query result should be moved
+        // inside the completion block above.
+    
+    
+    
+    
+   
+    
+    
     /*
     // MARK: - Navigation
 
