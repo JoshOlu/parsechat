@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
             }
             else {
                 print("User logged in successfully")
-                // display view controller that needs to shown after successful login
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         }
         
@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func signUpButton(_ sender: UIButton) {
         let newUser = PFUser()
-        
+        let alertController = UIAlertController(title: "Username and Password Required", message: "Please enter a username and password.", preferredStyle: .alert)
         // set user properties
         newUser.username = usernameTextField.text
         //newUser.email = emailLabel.text
@@ -66,6 +66,17 @@ class LoginViewController: UIViewController {
         
         // call sign up function on the object
         newUser.signUpInBackground { (success: Bool, error: Error?) in
+            if self.usernameTextField.text?.isEmpty == true || self.passwordTextField.text?.isEmpty == true{
+                let cancelAction = UIAlertAction(title: "OK", style: .cancel) { (action) in
+                    // handle cancel response here. Doing nothing will dismiss the view.
+                }
+                // add the cancel action to the alertController
+                alertController.addAction(cancelAction)
+                self.present(alertController, animated: true) {
+                    // optional code for what happens after the alert controller has finished presenting
+                }
+                
+            }
             if let error = error {
                 print(error.localizedDescription)
             } else {
