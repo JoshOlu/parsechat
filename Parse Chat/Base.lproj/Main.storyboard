@@ -103,14 +103,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My name is Kingsley" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daW-2r-lUu">
-                                                    <rect key="frame" x="20" y="8" width="334" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My name is Kingsley" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daW-2r-lUu">
+                                                    <rect key="frame" x="8" y="8" width="359" height="27.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="daW-2r-lUu" firstAttribute="leading" secondItem="lkP-uy-miJ" secondAttribute="leading" constant="8" id="OFx-BI-ycP"/>
+                                                <constraint firstAttribute="trailing" secondItem="daW-2r-lUu" secondAttribute="trailing" constant="8" id="PtB-sI-3wf"/>
+                                                <constraint firstAttribute="bottom" secondItem="daW-2r-lUu" secondAttribute="bottom" constant="8" id="jCo-oQ-QUm"/>
+                                                <constraint firstItem="daW-2r-lUu" firstAttribute="top" secondItem="lkP-uy-miJ" secondAttribute="top" constant="8" id="rsZ-P7-nhX"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="messageLabel" destination="daW-2r-lUu" id="ODm-L7-DGe"/>

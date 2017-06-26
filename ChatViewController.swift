@@ -24,6 +24,10 @@ class ChatViewController: UIViewController, UITableViewDataSource {
         chatTableView.dataSource = self
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.onTimer), userInfo: nil, repeats: true)
         
+        // Auto size row height based on cell autolayout constraints
+        chatTableView.rowHeight = UITableViewAutomaticDimension
+        // Provide an estimated row height. Used for calculating scroll indicator
+        chatTableView.estimatedRowHeight = 50
         // Do any additional setup after loading the view.
     }
     
@@ -34,7 +38,7 @@ class ChatViewController: UIViewController, UITableViewDataSource {
     
     
     @IBAction func sendButton(_ sender: Any) {
-        let chatMessage = PFObject(className: "Message_fbuJuly2017")
+        let chatMessage = PFObject(className: "Message_fbu2017")
         chatMessage["text"] = chatMessageField.text ?? ""
         chatMessage.saveInBackground { (success, error) in
             if success {
